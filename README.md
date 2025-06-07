@@ -1,46 +1,108 @@
-# Getting Started with Create React App
+# Ziva Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern React TypeScript dashboard application with analytics, user management, and data visualization features.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+- **Dashboard Overview**: Comprehensive analytics and metrics
+- **User Management**: User profiles and group management
+- **Analytics**: Data visualization with Chart.js
+- **Device Management**: Device tracking and monitoring
+- **Finance**: Billing and financial analytics
+- **Diary Analysis**: User diary data analysis
+- **Responsive Design**: Mobile-friendly interface
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React 19, TypeScript
+- **Routing**: React Router DOM
+- **Charts**: Chart.js with React Chart.js 2
+- **Styling**: CSS3 with modern animations
+- **Build Tool**: Create React App
+- **Deployment**: Vercel
+
+## 📦 Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/stefansila/Ziva-Dashboard.git
+cd Ziva-Dashboard
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm start
+```
+
+The app will open at [http://localhost:3000](http://localhost:3000).
+
+## 🚀 Deployment
+
+### Deploy to Vercel
+
+1. **Automatic Deployment** (Recommended):
+   - Connect your GitHub repository to Vercel
+   - Vercel will automatically deploy on every push to main branch
+
+2. **Manual Deployment**:
+   ```bash
+   npm run build
+   npx vercel --prod
+   ```
+
+3. **Using Vercel CLI**:
+   ```bash
+   npm install -g vercel
+   vercel login
+   vercel --prod
+   ```
+
+The project includes a `vercel.json` configuration file optimized for React applications.
+
+## 📁 Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── Sidebar.tsx     # Navigation sidebar
+│   ├── Charts/         # Chart components
+│   └── Animations/     # Animation components
+├── pages/              # Page components
+│   ├── Dashboard.tsx   # Main dashboard
+│   ├── Analytics.tsx   # Analytics page
+│   ├── Users.tsx       # User management
+│   └── ...
+├── data/               # Data and mock data
+└── App.tsx             # Main app component
+```
+
+## 🎯 Available Scripts
 
 ### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Runs the app in development mode at [http://localhost:3000](http://localhost:3000).
 
 ### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the test runner in interactive watch mode.
 
 ### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Builds the app for production to the `build` folder.
 
 ### `npm run eject`
+**Note: This is a one-way operation!** Ejects from Create React App.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🌐 Live Demo
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Visit the live application: [Ziva Dashboard on Vercel](https://ziva-dashboard.vercel.app)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 📄 License
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+This project is private and proprietary.
 
-## Learn More
+## 👨‍💻 Author
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Stefan Sila - [@stefansila](https://github.com/stefansila)
