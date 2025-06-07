@@ -18,7 +18,7 @@ const Sidebar: React.FC = () => {
     <div className="sidebar hamburger">
       <div className="user-info-top">
         <img 
-          src="/assets/media/Image-Sample.svg" 
+          src="https://global.divhunt.com/4cf4ad1b847bd14d5de34dacd023abc7_482.svg" 
           loading="lazy" 
           alt="User Avatar" 
           className="user-image"
