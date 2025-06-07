@@ -17,7 +17,16 @@ const Sidebar: React.FC = () => {
   return (
     <div className="sidebar hamburger">
       <div className="user-info-top">
-        <img src="/assets/media/Image-Sample.svg" loading="lazy" alt="" className="user-image" />
+        <img 
+          src="/assets/media/Image-Sample.svg" 
+          loading="lazy" 
+          alt="User Avatar" 
+          className="user-image"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+          }}
+        />
         <span className="user-title">Admin User</span>
         <span className="user-mail">admin@example.com</span>
       </div>
