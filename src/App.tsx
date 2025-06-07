@@ -9,6 +9,7 @@ import Analytics from './pages/Analytics';
 import DiaryAnalysis from './pages/DiaryAnalysis';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import PageAnimation from './components/PageAnimation';
+import { useHamburger } from './hooks/useHamburger';
 
 // Extend Window interface to include our custom function
 declare global {
@@ -18,6 +19,9 @@ declare global {
 }
 
 function App() {
+  // Initialize hamburger menu functionality
+  useHamburger();
+  
   // Set up the navigation function
   useEffect(() => {
     window.navigateTo = (path: string) => {
