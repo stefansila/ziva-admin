@@ -13,9 +13,6 @@ interface DeviceData {
   status: 'paired' | 'inactive' | 'unpaired' | 'maintenance';
 }
 
-type SortKey = 'name' | 'group' | 'age' | 'registered' | 'status';
-type SortDirection = 'asc' | 'desc';
-
 const statusLabels: Record<string, string> = {
   paired: 'active',
   inactive: 'inactive',
