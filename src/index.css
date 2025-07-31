@@ -49,7 +49,6 @@ code {
 .sidebar {
   width: 20%;
   background: var(--white);
-  padding-top: 13px;
   display: flex;
   flex-direction: column;
   row-gap: 8px;
@@ -662,19 +661,6 @@ code {
   gap: 12px;
 }
 
-.user-avatar {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-  border-radius: 50%;
-  background-color: var(--light-purple);
-  color: #6D64D3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  font-size: 16px;
-}
 
 .user-info {
   display: flex;
@@ -2287,3 +2273,220 @@ code {
   }
 }
 
+
+
+
+/* User dropdown styles */
+/* Compact User dropdown styles */
+.user-dropdown-container {
+    position: relative;
+    margin-bottom: 8px;
+    margin: 10px;
+}
+
+.user-info-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.user-info-top.compact {
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+
+.user-info-top.clickable {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.user-info-top.clickable:hover {
+    background-color: rgba(109, 100, 211, 0.05);
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #6D64D3 0%, #8B5CF6 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.user-info-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.user-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark-blue);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-mail {
+    font-size: 11px;
+    color: rgb(from var(--dark-blue) r g b / 60%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-arrow {
+    color: rgba(5, 44, 88, 0.5);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+.dropdown-arrow.open {
+    transform: rotate(180deg);
+}
+
+.user-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(5, 44, 88, 0.1);
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.dropdown-item {
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #052C58;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(109, 100, 211, 0.05);
+}
+
+.dropdown-item svg {
+    color: rgba(5, 44, 88, 0.5);
+    width: 14px;
+    height: 14px;
+}
+
+.logout-item {
+    color: #EF4444;
+}
+
+.logout-item svg {
+    color: #EF4444;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: rgba(5, 44, 88, 0.1);
+    margin: 2px 0;
+}
+
+/* Loading skeleton styles - compact version */
+.user-avatar-skeleton {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+.user-info-skeleton {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.skeleton-line {
+    height: 10px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 4px;
+    width: 100px;
+}
+
+.skeleton-line.small {
+    width: 70px;
+    height: 8px;
+}
+
+/* Remove the old centered user-info-top styles */
+.user-info-top {
+    padding-top: 0;
+    padding-bottom: 0;
+    flex-direction: row;
+    row-gap: 0;
+    text-align: left;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.2s ease-out;
+}
+
+/* Responsive updates */
+@media screen and (max-width: 991px) {
+    .user-dropdown {
+        position: fixed;
+        top: 70px;
+        left: 20px;
+        right: 20px;
+        width: auto;
+    }
+}
+
+
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: var(--grey);
+}
