@@ -4,6 +4,7 @@ import './styles/auth.css';
 import './styles/notifications.css';
 import Dashboard from './pages/Dashboard';
 import Users from './pages/Users';
+import Events from './pages/Events';
 import Devices from './pages/Devices';
 import Finance from './pages/Finance';
 import Groups from './pages/Groups';
@@ -56,6 +57,11 @@ function App() {
                 <Route path="/users" element={
                   <ProtectedRoute>
                     <Users />
+                  </ProtectedRoute>
+                } />
+                <Route path="/events" element={
+                  <ProtectedRoute>
+                    <Events />
                   </ProtectedRoute>
                 } />
                 <Route path="/group-management" element={

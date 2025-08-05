@@ -3,16 +3,31 @@ import { UserProfile } from '../services/userService';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
 import EditProfileModal from './EditProfileModal';
+import ProfileGeneralTab from './ProfileTabs/ProfileGeneralTab';
+import ProfileHealthTab from './ProfileTabs/ProfileHealthTab';
+import ProfileDevicesTab from './ProfileTabs/ProfileDevicesTab';
+import ProfileEventsTab from './ProfileTabs/ProfileEventsTab';
+
+export interface HealthProfile {
+    id: number;
+    profileId: number;
+    frequency: string;
+    riskGroup: 'high' | 'control' | 'average' | 'moderate' | null;
+    createdAt: string;
+    updatedAt: string;
+}
 
 interface UserProfileModalProps {
     userId: number;
     isOpen: boolean;
     onClose: () => void;
+    onDataUpdate?: () => void;
 }
 
-const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, isOpen, onClose }) => {
-    const [activeTab, setActiveTab] = useState<'general' | 'health' | 'devices'>('general');
+const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, isOpen, onClose, onDataUpdate }) => {
+    const [activeTab, setActiveTab] = useState<'general' | 'health' | 'devices' | 'events'>('general');
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+    const [healthProfile, setHealthProfile] = useState<HealthProfile | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [showEditModal, setShowEditModal] = useState(false);
     const { user: currentUser } = useAuth();
@@ -21,6 +36,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, isOpen, onC
     useEffect(() => {
         if (isOpen && userId) {
             fetchUserProfile();
+            fetchHealthProfile();
         }
     }, [isOpen, userId]);
 
@@ -49,6 +65,41 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, isOpen, onC
         }
     };
 
+    const fetchHealthProfile = async () => {
+        try {
+            const token = localStorage.getItem('accessToken');
+            
+            const response = await fetch(`https://ziva-health.netlify.app/api/v1/health-profile/health-profiles/profile/${userId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch health profile');
+            }
+
+            const data = await response.json();
+            
+            // Check if response is an empty array
+            if (Array.isArray(data) && data.length === 0) {
+                setHealthProfile(null);
+            } else if (Array.isArray(data) && data.length > 0) {
+                // If it returns an array with items, take the first one
+                setHealthProfile(data[0]);
+            } else if (data && typeof data === 'object') {
+                // If it returns a single object
+                setHealthProfile(data);
+            } else {
+                setHealthProfile(null);
+            }
+        } catch (error) {
+            console.error('Failed to load health profile:', error);
+            setHealthProfile(null);
+        }
+    };
+
     const getDisplayName = (profile: UserProfile): string => {
         if (profile.firstName && profile.lastName) {
             return `${profile.firstName} ${profile.lastName}`;
@@ -56,16 +107,6 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, isOpen, onC
         if (profile.firstName) return profile.firstName;
         if (profile.lastName) return profile.lastName;
         return profile.email.split('@')[0];
-    };
-
-    const formatDate = (dateString: string): string => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
     };
 
     const getInitials = (profile: UserProfile): string => {
@@ -145,58 +186,35 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, isOpen, onC
                                 >
                                     Devices
                                 </button>
+                                <button 
+                                    className={`profile-tab ${activeTab === 'events' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('events')}
+                                >
+                                    Events
+                                </button>
                             </div>
 
                             <div className="profile-tab-content">
                                 {activeTab === 'general' && (
-                                    <div className="profile-general-tab">
-                                        <div className="profile-info-grid">
-                                            <div className="profile-info-item">
-                                                <label>First Name</label>
-                                                <p>{userProfile.firstName || 'Not provided'}</p>
-                                            </div>
-                                            <div className="profile-info-item">
-                                                <label>Last Name</label>
-                                                <p>{userProfile.lastName || 'Not provided'}</p>
-                                            </div>
-                                            <div className="profile-info-item">
-                                                <label>Email</label>
-                                                <p>{userProfile.email}</p>
-                                            </div>
-                                            <div className="profile-info-item">
-                                                <label>Phone Number</label>
-                                                <p>{userProfile.phoneNumber || 'Not provided'}</p>
-                                            </div>
-                                            <div className="profile-info-item">
-                                                <label>Account Status</label>
-                                                <p>{userProfile.isActive ? 'Active' : 'Inactive'}</p>
-                                            </div>
-                                            <div className="profile-info-item">
-                                                <label>Last Login</label>
-                                                <p>{formatDate(userProfile.lastLoginAt)}</p>
-                                            </div>
-                                            <div className="profile-info-item">
-                                                <label>Created</label>
-                                                <p>{formatDate(userProfile.createdAt)}</p>
-                                            </div>
-                                            <div className="profile-info-item">
-                                                <label>Last Updated</label>
-                                                <p>{formatDate(userProfile.updatedAt)}</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <ProfileGeneralTab userProfile={userProfile} />
                                 )}
 
                                 {activeTab === 'health' && (
-                                    <div className="profile-health-tab">
-                                        <p className="tab-placeholder">Health profile information will be displayed here</p>
-                                    </div>
+                                    <ProfileHealthTab 
+                                        healthProfile={healthProfile} 
+                                        onHealthProfileUpdate={(updatedProfile) => {
+                                            setHealthProfile(updatedProfile);
+                                            onDataUpdate?.(); // Call the refresh function
+                                        }}
+                                    />
                                 )}
 
                                 {activeTab === 'devices' && (
-                                    <div className="profile-devices-tab">
-                                        <p className="tab-placeholder">Connected devices will be displayed here</p>
-                                    </div>
+                                    <ProfileDevicesTab userId={userId} />
+                                )}
+
+                                {activeTab === 'events' && (
+                                    <ProfileEventsTab userId={userId} />
                                 )}
                             </div>
                         </>
@@ -215,7 +233,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, isOpen, onC
                     onClose={() => setShowEditModal(false)}
                     onSave={() => {
                         setShowEditModal(false);
-                        fetchUserProfile(); // Refresh profile data
+                        fetchUserProfile();
                     }}
                 />
             )}
